@@ -10,8 +10,36 @@
 	</head>
 
 	<body>
-		<div class="books-container">
-		</div>
+		<dialog closedby="any" class="create-book-modal">
+			<button type="button" class="close-modal-button">X</button>
+			<form action="" method="dialog" id="create-book-form">
+				<fieldset>
+					<legend>Add book details</legend>
+
+					<label for="title">Title</label>
+					<input type="text" name="title" id="title" autofocus
+						   required>
+
+					<label for="author">Author</label>
+					<input type="text" name="author" id="author">
+
+					<label for="genre">Genre</label>
+					<input type="text" name="genre" id="genre">
+
+					<label for="pages">Page Count</label>
+					<input type="number" min="0" name="page count" id="pages">
+
+					<label for="hasRead">Has Read</label>
+					<input type="checkbox" name="has Read" id="hasRead">
+
+					<button form="create-book-form" id="add-book"
+							type="submit">Add
+						Book</button>
+				</fieldset>
+			</form>
+		</dialog>
+		<div class="books-container"></div>
+		<button type="button" class="open-modal-button">Add New Book</button>
 	</body>
 
 </html>
