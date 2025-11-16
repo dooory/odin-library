@@ -1,16 +1,19 @@
 let myLibrary = [];
 
-function Book(name, genre) {
+const booksContainer = document.querySelector(".books-container");
+
+function Book(name, author, genre, pages, hasRead) {
 	this.name = name;
+	this.author = author;
 	this.genre = genre;
+	this.pages = pages;
+	this.read = hasRead;
 	this.id = crypto.randomUUID();
 }
 
 function addBookToLibrary(book) {
 	myLibrary[book.id] = book;
 }
-
-const booksContainer = document.querySelector(".books-container");
 
 function addBookToPage(book) {
 	const bookElement = document.createElement("div");
@@ -28,19 +31,27 @@ function addBookToPage(book) {
 	booksContainer.appendChild(bookElement);
 }
 
-const FantasyBook = new Book("My Fantasy Book", "Fantasy");
-const HorrorBook = new Book("My Horror Book", "Horror");
-const ActionBook = new Book("My Action Book", "Action");
-const ScfiBook = new Book("My Sc-fi Book", "Sc-fi");
-const AdventureBook = new Book("My Adventure Book", "Adventure");
-const RomanceBook = new Book("My Romance Book", "Romance");
+const FantasyBook = new Book(
+	"My Fantasy Book",
+	"Gabriela Day",
+	"Fantasy",
+	100,
+	false
+);
+
+const HorrorBook = new Book(
+	"My Horror Book",
+	"Julie Lawson",
+	"Horror",
+	200,
+	true
+);
+
+const ActionBook = new Book("My Action Book", "Pedro Lam", "Action", 300, true);
 
 addBookToLibrary(FantasyBook);
 addBookToLibrary(HorrorBook);
 addBookToLibrary(ActionBook);
-addBookToLibrary(ScfiBook);
-addBookToLibrary(AdventureBook);
-addBookToLibrary(RomanceBook);
 
 for (const bookId in myLibrary) {
 	const book = myLibrary[bookId];
