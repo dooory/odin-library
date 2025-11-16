@@ -1,6 +1,15 @@
 let myLibrary = [];
 
 const booksContainer = document.querySelector(".books-container");
+const createBookModal = document.querySelector(".create-book-modal");
+const openModalButton = document.querySelector(".open-modal-button");
+const closeModalButton = document.querySelector(".close-modal-button");
+
+openModalButton.addEventListener("click", (event) =>
+	createBookModal.showModal()
+);
+
+closeModalButton.addEventListener("click", (event) => createBookModal.close());
 
 function Book(name, author, genre, pages, hasRead) {
 	this.name = name;
