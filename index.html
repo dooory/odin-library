@@ -11,32 +11,48 @@
 
 	<body>
 		<dialog closedby="any" class="create-book-modal">
-			<button type="button" class="close-modal-button">X</button>
-			<form action="" method="dialog" id="create-book-form">
-				<fieldset>
-					<legend>Add book details</legend>
+			<div class="modal-container">
+				<div class="modal-header">
+					<h1>Create Book</h1>
+					<button type="button" class="close-modal-button">X</button>
+				</div>
+				<div class="form-container">
+					<form action="" method="dialog" id="create-book-form">
+						<div class="title-container">
+							<label for="title">Title *</label>
+							<input type="text" name="title" id="title"
+								   placeholder="My Book" autofocus required>
+						</div>
 
-					<label for="title">Title</label>
-					<input type="text" name="title" id="title" autofocus
-						   required>
+						<div class="author-container">
+							<label for="author">Author *</label>
+							<input type="text" name="author" id="author"
+								   placeholder="John Doe" required>
+						</div>
 
-					<label for="author">Author</label>
-					<input type="text" name="author" id="author">
+						<div class="genre-container">
+							<label for="genre">Genre *</label>
+							<input type="text" name="genre" id="genre"
+								   placeholder="Fantasy" required>
+						</div>
 
-					<label for="genre">Genre</label>
-					<input type="text" name="genre" id="genre">
+						<div class="pages-container">
+							<label for="pages">Page Count *</label>
+							<input type="number" min="0" name="pageCount"
+								   id="pages" placeholder="100" required>
+						</div>
 
-					<label for="pages">Page Count</label>
-					<input type="number" min="0" name="page count" id="pages">
+						<div class="has-read-container">
+							<label for="hasRead">Has Read</label>
+							<input type="checkbox" name="hasRead" id="hasRead">
+						</div>
 
-					<label for="hasRead">Has Read</label>
-					<input type="checkbox" name="has Read" id="hasRead">
-
+					</form>
 					<button form="create-book-form" id="add-book"
 							type="submit">Add
 						Book</button>
-				</fieldset>
-			</form>
+				</div>
+			</div>
 		</dialog>
 		<div class="books-container"></div>
 		<button type="button" class="open-modal-button">Add New Book</button>
