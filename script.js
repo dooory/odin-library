@@ -1,7 +1,6 @@
-let myLibrary = {
+const myLibrary = new Library({
 	name: "MyLibrary",
-	books: [],
-};
+});
 
 const booksContainer = document.querySelector(".books-container");
 
@@ -12,6 +11,24 @@ const openModalButton = document.querySelector(".open-modal-button");
 const closeModalButton = document.querySelector(".close-modal-button");
 const addBookButton = document.getElementById("add-book");
 
+function Library(data) {
+	Object.assign(this, data);
+	this.id = crypto.randomUUID();
+	this.books = [];
+
+	this.removeBook = function (bookId) {
+		if (!this.books[bookId]) {
+			console.error(`No book with id <${bookId}> found`);
+		}
+
+		delete this.books[bookId];
+	};
+
+	this.addBook = function (bookData) {
+		this.books[bookData.id] = bookData;
+	};
+}
+
 function Book(data) {
 	Object.assign(this, data);
 	this.id = crypto.randomUUID();
@@ -19,7 +36,7 @@ function Book(data) {
 
 	this.addToLibrary = function (library) {
 		this.libraries.push(library);
-		library.books[this.id] = this;
+		library.addBook(this);
 	};
 
 	this.addToLibraryPage = function (library) {
@@ -70,15 +87,17 @@ function Book(data) {
 
 		deleteButton.addEventListener("click", () => {
 			this.removeFromLibrary(library);
-			this.removeFromLibraryPage(library);
+			this.removeFromPage();
 		});
 	};
 
-	this.removeFromLibraryPage = function () {
-		this.element.remove();
+	this.removeFromLibrary = function (library) {
+		library.removeBook(this.id);
 	};
 
-	this.removeFromLibrary = function () {};
+	this.removeFromPage = function () {
+		this.element.remove();
+	};
 }
 
 openModalButton.addEventListener("click", (event) =>
@@ -94,7 +113,7 @@ createBookForm.addEventListener("submit", (event) => {
 	const newBook = new Book(bookData);
 
 	newBook.addToLibrary(myLibrary);
-	newBook.addToLibraryPage();
+	newBook.addToLibraryPage(myLibrary);
 
 	createBookForm.reset();
 });
