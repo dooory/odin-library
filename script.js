@@ -17,6 +17,7 @@ function Book(data) {
 function addBookToPage(data) {
 	const book = document.createElement("div");
 	book.classList.add("book");
+	book.dataset.bookId = data.id;
 
 	if (data.hasRead) {
 		book.classList.add("has-read-book");
@@ -33,6 +34,10 @@ function addBookToPage(data) {
 	const genre = document.createElement("p");
 	const pageCount = document.createElement("p");
 
+	const deleteButton = document.createElement("button");
+	deleteButton.classList.add("delete-book-button");
+	deleteButton.textContent = "X";
+
 	title.classList.add("book-title");
 	author.classList.add("book-author");
 	genre.classList.add("book-genre");
@@ -43,6 +48,7 @@ function addBookToPage(data) {
 	pageCount.textContent = `Pages: ${data.pageCount}`;
 	genre.textContent = `Genre: ${data.genre}`;
 
+	bookHeader.appendChild(deleteButton);
 	bookHeader.appendChild(title);
 	bookHeader.appendChild(author);
 	bookDescription.appendChild(genre);
@@ -51,10 +57,35 @@ function addBookToPage(data) {
 	book.appendChild(bookHeader);
 	book.appendChild(bookDescription);
 	booksContainer.appendChild(book);
+
+	deleteButton.addEventListener("click", () => {
+		removeBookFromLibrary(data.id);
+		removeBookFromPage(data.id);
+	});
 }
 
 function addBookToLibrary(book) {
 	myLibrary[book.id] = book;
+}
+
+function removeBookFromLibrary(bookId) {
+	if (!myLibrary[bookId]) {
+		console.error(`No book with id <${bookId}> in Library`);
+
+		return;
+	}
+
+	delete myLibrary[bookId];
+}
+
+function removeBookFromPage(bookId) {
+	const book = document.querySelector(`[data-book-id='${bookId}']`);
+
+	if (!book) {
+		console.error(`No book element with id <${bookId} found`);
+	}
+
+	book.remove();
 }
 
 const FantasyBook = new Book({
@@ -64,8 +95,6 @@ const FantasyBook = new Book({
 	pageCount: 100,
 	hasRead: true,
 });
-
-console.log(FantasyBook);
 
 openModalButton.addEventListener("click", (event) =>
 	createBookModal.showModal()

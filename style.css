@@ -50,6 +50,15 @@ html {
 	border-bottom: 16px solid red;
 }
 
+.book-header .delete-book-button {
+	height: 2rem;
+	width: 2rem;
+
+	border-radius: 0.5rem;
+	border: none;
+	float: right;
+}
+
 .create-book-modal {
 	border-radius: 1rem;
 	border: none;
