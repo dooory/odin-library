@@ -42,7 +42,7 @@ html {
 
 .book-bottom {
 	display: grid;
-	align-items: center;
+	align-items: end;
 
 	grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
 
