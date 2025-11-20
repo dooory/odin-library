@@ -123,13 +123,13 @@ html {
 }
 
 .open-modal-button {
-	padding: 1rem 1.5rem;
+	padding: 2rem 3rem;
 
 	color: aliceblue;
 
 	position: fixed;
-	right: 0.25rem;
-	bottom: 0.25rem;
+	right: 0.5rem;
+	bottom: 0.5rem;
 
 	border-radius: 1rem;
 	border: 1px solid #fff;
