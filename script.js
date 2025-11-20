@@ -11,6 +11,8 @@ const openModalButton = document.querySelector(".open-modal-button");
 const closeModalButton = document.querySelector(".close-modal-button");
 const addBookButton = document.getElementById("add-book");
 
+const hasReadClass = "has-read-book";
+
 function Library(data) {
 	Object.assign(this, data);
 	this.id = crypto.randomUUID();
@@ -29,7 +31,7 @@ function Library(data) {
 	};
 }
 
-function Book(data) {
+function Book(data, instantiate, library) {
 	Object.assign(this, data);
 	this.id = crypto.randomUUID();
 	this.libraries = [];
@@ -47,43 +49,73 @@ function Book(data) {
 		this.element = book;
 
 		if (this.hasRead) {
-			book.classList.add("has-read-book");
+			book.classList.add(hasReadClass);
 		}
 
-		const bookHeader = document.createElement("div");
-		const bookDescription = document.createElement("div");
+		const header = document.createElement("div");
+		const bottom = document.createElement("div");
 
-		bookHeader.classList.add("book-header");
-		bookDescription.classList.add("book-description");
+		header.classList.add("book-header");
+		bottom.classList.add("book-bottom");
+
+		const metaData = document.createElement("div");
+		const controls = document.createElement("div");
+
+		metaData.classList.add("book-metadata");
+		controls.classList.add("book-controls");
 
 		const title = document.createElement("h1");
 		const author = document.createElement("h3");
+		const hasRead = document.createElement("p");
 		const genre = document.createElement("p");
 		const pageCount = document.createElement("p");
+
+		const toggleReadButton = document.createElement("button");
+		toggleReadButton.classList.add("toggle-read-button");
+		toggleReadButton.textContent = "Toggle Read";
+		toggleReadButton.type = "button";
 
 		const deleteButton = document.createElement("button");
 		deleteButton.classList.add("delete-book-button");
 		deleteButton.textContent = "X";
+		deleteButton.type = "button";
 
 		title.classList.add("book-title");
 		author.classList.add("book-author");
 		genre.classList.add("book-genre");
+		hasRead.classList.add("book-hasRead");
 		pageCount.classList.add("book-page-count");
 
 		title.textContent = this.title;
 		author.textContent = `By ${this.author}`;
 		pageCount.textContent = `Pages: ${this.pageCount}`;
 		genre.textContent = `Genre: ${this.genre}`;
+		hasRead.textContent = `Has Read: ${
+			this.hasRead === true ? "yes" : "no"
+		}`;
 
-		bookHeader.appendChild(deleteButton);
-		bookHeader.appendChild(title);
-		bookHeader.appendChild(author);
-		bookDescription.appendChild(genre);
-		bookDescription.appendChild(pageCount);
+		header.appendChild(deleteButton);
+		header.appendChild(title);
+		header.appendChild(author);
+		controls.appendChild(toggleReadButton);
+		metaData.appendChild(genre);
+		metaData.appendChild(pageCount);
+		metaData.appendChild(hasRead);
 
-		book.appendChild(bookHeader);
-		book.appendChild(bookDescription);
+		bottom.appendChild(metaData);
+		bottom.appendChild(controls);
+
+		book.appendChild(header);
+		book.appendChild(bottom);
 		booksContainer.appendChild(book);
+
+		toggleReadButton.addEventListener("click", () => {
+			this.toggleRead();
+
+			hasRead.textContent = `Has Read: ${
+				this.hasRead === true ? "yes" : "no"
+			}`;
+		});
 
 		deleteButton.addEventListener("click", () => {
 			this.removeFromLibrary(library);
@@ -98,6 +130,23 @@ function Book(data) {
 	this.removeFromPage = function () {
 		this.element.remove();
 	};
+
+	this.toggleRead = function () {
+		this.hasRead = !this.hasRead;
+
+		if (this.hasRead) {
+			this.element.classList.add(hasReadClass);
+		} else {
+			this.element.classList.remove(hasReadClass);
+		}
+
+		console.log(this.hasRead);
+	};
+
+	if (instantiate) {
+		this.addToLibrary(library);
+		this.addToLibraryPage(library);
+	}
 }
 
 openModalButton.addEventListener("click", (event) =>
@@ -118,13 +167,72 @@ createBookForm.addEventListener("submit", (event) => {
 	createBookForm.reset();
 });
 
-const FantasyBook = new Book({
-	title: "My Fantasy Book",
-	author: "Gabriela Day",
-	genre: "Fantasy",
-	pageCount: 100,
-	hasRead: true,
-});
+const HarryPotter = new Book(
+	{
+		title: "Harry Potter and the Philosopher's Stone",
+		author: "J. K. Rowling",
+		genre: "Fantasy",
+		pageCount: 100,
+		hasRead: true,
+	},
+	true,
+	myLibrary
+);
 
-FantasyBook.addToLibrary(myLibrary);
-FantasyBook.addToLibraryPage(myLibrary);
+const TheHobbit = new Book(
+	{
+		title: "The Hobbit",
+		author: "J. R. R. Tolkien",
+		genre: "Fantasy, Children's Fiction",
+		pageCount: 200,
+	},
+	true,
+	myLibrary
+);
+
+const AliceWonderland = new Book(
+	{
+		title: "Alice's Adventures in Wonderland",
+		author: "Lewis Carroll",
+		genre: "Fantasy, Absurdist Fiction",
+		pageCount: 500,
+	},
+	true,
+	myLibrary
+);
+
+const CatcherRye = new Book(
+	{
+		title: "The Catcher in the Rye",
+		author: "J. D. Salinger",
+		genre: "Coming-of-age",
+		hasRead: true,
+		pageCount: 300,
+	},
+	true,
+	myLibrary
+);
+
+const PeterRabbit = new Book(
+	{
+		title: "Peter Rabbit",
+		author: "Beatrix Potter",
+		genre: "Children's literature",
+		hasRead: true,
+		pageCount: 600,
+	},
+	true,
+	myLibrary
+);
+
+const CharlottesWeb = new Book(
+	{
+		title: "Charlotte's Web",
+		author: "E. B. White",
+		genre: "Children's Fiction",
+		hasRead: true,
+		pageCount: 400,
+	},
+	true,
+	myLibrary
+);
