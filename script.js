@@ -26,17 +26,25 @@ class Library {
 	}
 }
 
-function Book(data, instantiate, library) {
-	Object.assign(this, data);
-	this.id = crypto.randomUUID();
-	this.libraries = [];
+class Book {
+	constructor(data, instantiate, library) {
+		Object.assign(this, data);
 
-	this.addToLibrary = function (library) {
+		this.id = crypto.randomUUID();
+		this.libraries = [];
+
+		if (instantiate) {
+			this.addToLibrary(library);
+			this.addToLibraryPage(library);
+		}
+	}
+
+	addToLibrary(library) {
 		this.libraries.push(library);
 		library.addBook(this);
-	};
+	}
 
-	this.addToLibraryPage = function (library) {
+	addToLibraryPage(library) {
 		const book = document.createElement("div");
 		book.classList.add("book");
 		book.dataset.bookId = this.id;
@@ -116,17 +124,17 @@ function Book(data, instantiate, library) {
 			this.removeFromLibrary(library);
 			this.removeFromPage();
 		});
-	};
+	}
 
-	this.removeFromLibrary = function (library) {
+	removeFromLibrary(library) {
 		library.removeBook(this.id);
-	};
+	}
 
-	this.removeFromPage = function () {
+	removeFromPage() {
 		this.element.remove();
-	};
+	}
 
-	this.toggleRead = function () {
+	toggleRead() {
 		this.hasRead = !this.hasRead;
 
 		if (this.hasRead) {
@@ -136,11 +144,6 @@ function Book(data, instantiate, library) {
 		}
 
 		console.log(this.hasRead);
-	};
-
-	if (instantiate) {
-		this.addToLibrary(library);
-		this.addToLibraryPage(library);
 	}
 }
 
