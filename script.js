@@ -1,7 +1,3 @@
-const myLibrary = new Library({
-	name: "MyLibrary",
-});
-
 const booksContainer = document.querySelector(".books-container");
 
 const createBookModal = document.querySelector(".create-book-modal");
@@ -13,23 +9,50 @@ const addBookButton = document.getElementById("add-book");
 
 const hasReadClass = "has-read-book";
 
-function Library(data) {
-	Object.assign(this, data);
-	this.id = crypto.randomUUID();
-	this.books = [];
+// function Library(data) {
+// 	Object.assign(this, data);
+// 	this.id = crypto.randomUUID();
+// 	this.books = [];
 
-	this.removeBook = function (bookId) {
-		if (!this.books[bookId]) {
-			console.error(`No book with id <${bookId}> found`);
-		}
+// 	this.removeBook = function (bookId) {
+// 		if (!this.books[bookId]) {
+// 			console.error(`No book with id <${bookId}> found`);
+// 		}
 
-		delete this.books[bookId];
-	};
+// 		delete this.books[bookId];
+// 	};
 
-	this.addBook = function (bookData) {
-		this.books[bookData.id] = bookData;
-	};
+// 	this.addBook = function (bookData) {
+// 		this.books[bookData.id] = bookData;
+// 	};
+// }
+
+class Library {
+	id = crypto.randomUUID();
+	books = [];
+
+	constructor(name) {
+		this.name = name;
+	}
+
+	addBook(data) {
+		this.books[data.id] = data;
+	}
+
+	removeBook(id) {
+		delete this.books[id];
+	}
 }
+
+// class Book {
+// 	constructor({ title, author, genre, pageCount, hasRead }) {
+// 		this.title = title;
+// 		this.author = author;
+// 		this.genre = genre;
+// 		this.pageCount = pageCount;
+// 		this.hasRead = hasRead;
+// 	}
+// }
 
 function Book(data, instantiate, library) {
 	Object.assign(this, data);
@@ -165,6 +188,10 @@ createBookForm.addEventListener("submit", (event) => {
 	newBook.addToLibraryPage(myLibrary);
 
 	createBookForm.reset();
+});
+
+const myLibrary = new Library({
+	name: "MyLibrary",
 });
 
 const HarryPotter = new Book(
